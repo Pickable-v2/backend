@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class FriendListDTO {
-
      private Long friendshipId;
      private String friendLoginId;
      private String friendNickname;

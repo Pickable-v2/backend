@@ -19,9 +19,9 @@ public class Friendship {
     private String memberLoginId;
     private String friendLoginId;
     private FriendshipStatus status;
-    private boolean isFrom; // 상대에게 온 요청
+    private boolean isFrom;
 
-    private Long counterpartId; // 상대가 보낸 요청 아이디
+    private Long counterpartId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")

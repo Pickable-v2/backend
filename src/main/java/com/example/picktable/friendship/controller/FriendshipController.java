@@ -27,12 +27,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/chat")
 public class FriendshipController {
-
     private final MemberService memberService;
     private final FriendshipService friendshipService;
     private final FriendshipRepository friendshipRepository;
 
-    /* 친구 검색 */
     @GetMapping("/friend/search")
     public ResponseEntity<Page<FriendListResponseDTO>> searchFriend(@RequestParam(name = "loginId") String loginId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable) throws Exception {
         if(!memberService.confirmId(loginId)) {
@@ -42,7 +40,6 @@ public class FriendshipController {
         return new ResponseEntity<>(responseDTOS, HttpStatus.OK);
     }
 
-    /* 친구 추가 요청 */
     @PostMapping("/friend/add/{loginId}")
     public ResponseEntity<MsgResponseDTO> addFriend(@Valid @PathVariable("loginId") String loginId) throws Exception {
         if(!memberService.confirmId(loginId)) {
@@ -53,7 +50,6 @@ public class FriendshipController {
         return ResponseEntity.ok(new MsgResponseDTO("친구 추가 완료", HttpStatus.OK.value()));
     }
 
-    /* 친구 목록 조회 */
     @GetMapping("/friend-list")
     public ResponseEntity<?> getFriendInfo() throws Exception {
         List<FriendListDTO> friendList = friendshipService.getFriendList();
@@ -61,7 +57,6 @@ public class FriendshipController {
         return new ResponseEntity<>(friendList, HttpStatus.OK);
     }
 
-    /* 친구 추가 요청 조회 */
     @GetMapping("/friend-add-list")
     public ResponseEntity<?> getWaitingFriendInfo() throws Exception {
         List<FriendListDTO> waitingFriendList = friendshipService.getWaitingFriendList();
@@ -69,7 +64,6 @@ public class FriendshipController {
         return new ResponseEntity<>(waitingFriendList, HttpStatus.OK);
     }
 
-    /* 친구 추가 수락 */
     @PostMapping("/friend/accept/{friendshipId}")
     public ResponseEntity<?> acceptFriend(@Valid @PathVariable("friendshipId") Long friendshipId) throws Exception {
         Friendship byId = friendshipRepository.findById(friendshipId).orElseThrow();
@@ -80,7 +74,6 @@ public class FriendshipController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    /* 친구 추가 취소 */
     @DeleteMapping("/friend/cancel/{friendshipId}")
     public ResponseEntity<?> cancelFriend(@Valid @PathVariable("friendshipId") Long friendshipId) {
         friendshipService.cancelFriendRequest(friendshipId);
