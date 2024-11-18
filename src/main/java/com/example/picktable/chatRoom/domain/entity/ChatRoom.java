@@ -25,13 +25,13 @@ public class ChatRoom {
     @Column(name = "room_id")
     private Long id;
 
-    private String hostId; // 방장 닉네임
+    private String hostId;
     private String roomName;
-    private int currentUserNum; // 현재 인원 수
+    private int currentUserNum;
 
     @JsonIgnore
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private Set<ChatRoomMember> chatRoomMembers = new HashSet<>(); // 방 참여자들 (연관 관계)
+    private Set<ChatRoomMember> chatRoomMembers = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "VOTE_ID")
@@ -44,14 +44,11 @@ public class ChatRoom {
 
     public void addVote(Vote vote) {
         this.vote = vote;
-        vote.setRoom(this); // 연관 관계 설정
+        vote.setRoom(this);
     }
 
     public void addMeet(Meet meet) {
         this.meet = meet;
-//        if (meet != null) {
-//            meet.setRoom(this); // 연관 관계 설정
-//        }
     }
 
     @Builder
@@ -75,19 +72,5 @@ public class ChatRoom {
             member.getChatRoomMembers().add(chatRoomMember);
             this.currentUserNum += 1;
         }
-    }
-
-    public void removeParticipant(Member member) {
-        chatRoomMembers.removeIf(chatRoomMember -> chatRoomMember.getMember().equals(member));
-        member.getChatRoomMembers().removeIf(chatRoomMember -> chatRoomMember.getRoom().equals(this));
-        this.currentUserNum -= 1;
-    }
-
-    public void removeParticipantAll() {
-        for (ChatRoomMember chatRoomMember : this.chatRoomMembers) {
-            chatRoomMember.getMember().getChatRoomMembers().remove(chatRoomMember);
-        }
-        this.chatRoomMembers.clear();
-        this.currentUserNum = 0;
     }
 }

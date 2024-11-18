@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 public class ChatRoomService {
-
     private final ChatRoomRepository chatRoomRepository;
     private final MemberRepository memberRepository;
     private final NoticeRepository noticeRepository;

@@ -12,7 +12,6 @@ public class RoomAndFriendsRequestDTO {
     private String name;
     private List<String> friendLoginIds;
 
-    // Getter 및 Setter
     public String getName() {
         return name;
     }
