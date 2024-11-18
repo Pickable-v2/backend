@@ -10,10 +10,9 @@ import lombok.Setter;
 public class FoodTypeResponseDTO {
     private Long id;
     private String foodTypeName;
-    private Long count;//순위를 정하기 위한 변수
+    private Long count;
     private Long ranks;
 
-    //주간순위
     public FoodTypeResponseDTO(Long id, String foodTypeName, int count, int rank) {
         this.id=id;
         this.foodTypeName=foodTypeName;

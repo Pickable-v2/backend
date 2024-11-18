@@ -17,8 +17,10 @@ public class FoodType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FOODTYPE_ID")
     private Long id;
+
     private String foodTypeName;
     private Long count;
+
     @OneToMany(mappedBy = "foodType",fetch = FetchType.EAGER)
     private List<Restaurant>  restaurants;
 }

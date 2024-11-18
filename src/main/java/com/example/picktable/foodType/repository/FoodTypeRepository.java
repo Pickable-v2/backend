@@ -9,8 +9,4 @@ import java.util.Optional;
 
 public interface FoodTypeRepository extends JpaRepository<FoodType, Long> {
     Optional<FoodType> findByFoodTypeName(String foodTypeName);
-
-    //주간순위
-    @Query("SELECT f FROM FoodType f ORDER BY f.count DESC")
-    List<FoodType> findTop5ByCount();
 }
