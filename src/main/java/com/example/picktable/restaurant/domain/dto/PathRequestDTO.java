@@ -13,5 +13,5 @@ public class PathRequestDTO {
     private String departure;
     private String destination;
     private List<String> destinations;
-    private String searchDttm; //출발예정시각
+    private String searchDttm;
 }

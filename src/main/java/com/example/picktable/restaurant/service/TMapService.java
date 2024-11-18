@@ -23,13 +23,9 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class TMapService {
-
     @Value("${tmap.api.key}")
     private String tmapKey;
 
-    private final RestaurantRepository restaurantRepository;
-
-    // 주소를 위도와 경도로 변환
     @Transactional
     public Map<String, Double> getCoordinates(String address) {
         try {
@@ -52,17 +48,11 @@ public class TMapService {
     @Transactional
     public String getAddressByCoordinates(double startX, double startY) {
         ObjectMapper mapper = new ObjectMapper();
-     //   System.out.println("getAddressByCoordinates 들어옴");
-        /*String coordType = "WGS84GEO"; // 좌표계 유형 설정
-        String addressType = "A00"; // 변환할 주소 유형 설정
-        String coordYn = "Y"; // 좌푯값 반환 여부
-        int version = 1; // API 버전*/
         try {
             String requestUrl = String.format(
                     "https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&lat=%f&lon=%f&appKey=%s",
                     startY, startX, tmapKey
             );
-       //     System.out.println("requestURL : " + requestUrl);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(requestUrl))
@@ -82,21 +72,14 @@ public class TMapService {
         }
     }
 
-    //음식점주소의 XX동XX번지 추출
     @Transactional
     public String getAddressByCoordinates2(double startX, double startY) {
         ObjectMapper mapper = new ObjectMapper();
-     //   System.out.println("getAddressByCoordinates 들어옴");
-        /*String coordType = "WGS84GEO"; // 좌표계 유형 설정
-        String addressType = "A00"; // 변환할 주소 유형 설정
-        String coordYn = "Y"; // 좌푯값 반환 여부
-        int version = 1; // API 버전*/
         try {
             String requestUrl = String.format(
                     "https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&lat=%f&lon=%f&appKey=%s",
                     startY, startX, tmapKey
             );
-         //   System.out.println("requestURL : " + requestUrl);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(requestUrl))
@@ -112,9 +95,7 @@ public class TMapService {
             JsonNode bunji = addressInfo.path("bunji");
             String bunjiString = bunji.asText();
             bunjiString= String.valueOf(bunjiString.charAt(0));
-           // System.out.println("번지글자수 : "+bunjiString.length());
             String fullAddress = dong.asText() +" "+ bunjiString;
-          //  System.out.println("주소 : " + fullAddress);
             return fullAddress;
         } catch (IOException | InterruptedException e) {
             System.err.println("Failed to retrieve legalDong: " + e.getMessage());
@@ -122,8 +103,6 @@ public class TMapService {
         }
     }
 
-
-    // JSON 응답 파싱
     @Transactional
     public Map<String, Double> parseCoordinates(String responseBody) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -144,48 +123,6 @@ public class TMapService {
         }
     }
 
-    // 직선 거리 계산
-    @Transactional
-    public Double getDirectDistance(double startX, double startY, double endX, double endY) {
-    //    System.out.println("api를 사용한 직선거리 계산 출발지 정보 " + startX + " " + startY + " 도착지 정보 " + endX + " " + endY);
-        try {
-            // API 요청 URL 생성
-            String requestUrl = String.format("https://apis.openapi.sk.com/tmap/routes?version=1&startX=%s&startY=%s&endX=%s&endY=%s&appKey=%s",
-                    Double.toString(startX), Double.toString(startY), Double.toString(endX), Double.toString(endY), tmapKey);
-          //  System.out.println("requestURL : " + requestUrl);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(requestUrl))
-                    .header("accept", "application/json")
-                    .header("Content-Type", "application/json")
-                    .GET()
-                    .build();
-
-            // API 요청 및 응답 수신
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            return parseDistance(response.body());
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Failed to calculate direct distance: " + e.getMessage());
-            return (double) -1; // 오류 발생 시 -1 반환
-        }
-    }
-
-    // 응답에서 거리 파싱
-    @Transactional
-    public double parseDistance(String responseBody) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(responseBody);
-        if (rootNode.has("features")) {
-            JsonNode features = rootNode.get("features");
-            if (features.isArray() && features.size() > 0) {
-                JsonNode properties = features.get(0).get("properties");
-                if (properties != null && properties.has("totalDistance")) {
-                    return properties.get("totalDistance").asDouble() / 1000; // 미터를 킬로미터로 변환
-                }
-            }
-        }
-        throw new IOException("Distance data not found in the response");
-    }
-
     //api 사용 안한 직선거리 계산
     @Transactional
     public double calculateDistance(double startLat, double startLon, double endX, double endY) {
@@ -201,11 +138,8 @@ public class TMapService {
     }
 
     //최적경로 반환 https://apis.openapi.sk.com/transit/routes
-    //출발지&목적지에 대한 대중교통 경로탐색 정보와 전체 보행자 이동 경로를 제공
-    //출발지 및 도착지 위도경도 필요
     @Transactional
     public int totalTime(String startX, String startY, String endX, String endY, int lang, String format, int count, String searchDttm) {
-        //System.out.println("경로 반환 함수 출발지 " + startX + " " + startY + " 도착지 정보 " + endX + " " + endY);
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -220,17 +154,15 @@ public class TMapService {
                     .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody)) // 변경된 부분
                     .build();
 
-           // System.out.println("Url : " + request.uri().toString());
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             String body = response.body();
-          //  System.out.println("body : " + body);
 
             if (body.contains("error")) {
                 System.out.println("에러입니다");
                 JsonNode rootNode = mapper.readTree(body);
                 JsonNode errorNode = rootNode.path("error");
                 System.out.println("Error response: " + errorNode.toString());
-                return -1; // 오류가 있는 경우 -1 반환
+                return -1;
             }
 
             JsonNode rootNode = mapper.readTree(body);
@@ -238,137 +170,20 @@ public class TMapService {
             if (itinerariesNode.isArray() && itinerariesNode.size() > 0) {
                 JsonNode firstItinerary = itinerariesNode.get(0);
                 JsonNode totalTimeInfo = firstItinerary.path("totalTime");
-               // System.out.println("총 소요시간은 : " + totalTimeInfo.toString());
                 return totalTimeInfo.asInt();
             }
             return 0;
         } catch (IOException | InterruptedException e) {
             System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return -1; // 오류 발생 시 -1 반환
+            return -1;
         }
     }
 
-    @Transactional
-    public int totalTime2(String departure, String destination, int lang, String format, int count, String searchDttm) {
-       // System.out.println("경로 반환 함수 출발지 :" + departure + " 도착지 정보 " + destination);
-        Map<String, Double> depCoordinates = this.getCoordinates(departure);
-        Map<String, Double> destCoordinates = this.getCoordinates(destination);
-
-       // System.out.println("출발지 위치 :" + depCoordinates.get("latitude")+" "+depCoordinates.get("longitude")+ " 도착지 위치 " + destCoordinates.get("latitude")+" "+destCoordinates.get("longitude"));
-        String startY = Double.toString(depCoordinates.get("latitude"));
-        String startX = Double.toString(depCoordinates.get("longitude"));
-        String endY = Double.toString(destCoordinates.get("latitude"));
-        String endX = Double.toString(destCoordinates.get("longitude"));
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            String jsonBody = String.format(
-                    "{\"startX\":\"%s\",\"startY\":\"%s\",\"endX\":\"%s\",\"endY\":\"%s\",\"lang\":%d,\"format\":\"%s\",\"count\":%d,\"searchDttm\":\"%s\"}",
-                    startX, startY, endX, endY, lang, format, count, searchDttm);
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://apis.openapi.sk.com/transit/routes"))
-                    .header("accept", "application/json")
-                    .header("appKey", tmapKey)
-                    .method("POST", HttpRequest.BodyPublishers.ofString(jsonBody)) // 변경된 부분
-                    .build();
-
-        //    System.out.println("Url : " + request.uri().toString());
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            String body = response.body();
-        //    System.out.println("body : " + body);
-
-            if (body.contains("error")) {
-                System.out.println("에러입니다");
-                JsonNode rootNode = mapper.readTree(body);
-                JsonNode errorNode = rootNode.path("error");
-                System.out.println("Error response: " + errorNode.toString());
-                return -1; // 오류가 있는 경우 -1 반환
-            }
-
-            JsonNode rootNode = mapper.readTree(body);
-            JsonNode itinerariesNode = rootNode.path("metaData").path("plan").path("itineraries");
-            if (itinerariesNode.isArray() && itinerariesNode.size() > 0) {
-                JsonNode firstItinerary = itinerariesNode.get(0);
-                JsonNode totalTimeInfo = firstItinerary.path("totalTime");
-               // System.out.println("총 소요시간은 : " + totalTimeInfo.toString());
-                return totalTimeInfo.asInt();
-            }
-            return 0;
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return -1; // 오류 발생 시 -1 반환
-        }
-    }
-
-    /*@Transactional
-    public PathResponseDTO getTransitRoute(String departure, String destination, int lang, String format, int count, String searchDttm) {
-        System.out.println("경로 반환 함수 출발지 :" + departure + " 도착지 정보 " + destination);
-        Map<String, Double> depCoordinates = this.getCoordinates(departure);
-        Map<String, Double> destCoordinates = this.getCoordinates(destination);
-
-        System.out.println("출발지 위치 :" + depCoordinates.get("latitude") + " " + depCoordinates.get("longitude") + " 도착지 위치 " + destCoordinates.get("latitude") + " " + destCoordinates.get("longitude"));
-        String startY = Double.toString(depCoordinates.get("latitude"));
-        String startX = Double.toString(depCoordinates.get("longitude"));
-        String endY = Double.toString(destCoordinates.get("latitude"));
-        String endX = Double.toString(destCoordinates.get("longitude"));
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            String jsonBody = String.format(
-                    "{\"startX\":\"%s\",\"startY\":\"%s\",\"endX\":\"%s\",\"endY\":\"%s\",\"lang\":%d,\"format\":\"%s\",\"count\":%d,\"searchDttm\":\"%s\"}",
-                    startX, startY, endX, endY, lang, format, count, searchDttm);
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://apis.openapi.sk.com/transit/routes"))
-                    .header("accept", "application/json")
-                    .header("appKey", tmapKey)
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                    .build();
-
-            System.out.println("Url : " + request.uri().toString());
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            String body = response.body();
-            System.out.println("body : " + body);
-
-            //body를 받아오는 시점
-
-            if (body.contains("error")) {
-                System.out.println("에러입니다");
-                JsonNode rootNode = mapper.readTree(body);
-                JsonNode errorNode = rootNode.path("error");
-                System.out.println("Error response: " + errorNode.toString());
-                return null; // 오류가 있는 경우 null 반환
-            }
-
-            JsonNode rootNode = mapper.readTree(body);
-            JsonNode metaData = rootNode.path("metaData");
-            JsonNode requestParameter = metaData.path("requestParameters");
-            JsonNode itinerariesNode = metaData.path("plan").path("itineraries");// List
-            JsonNode legs = itinerariesNode.get(0).path("legs"); //List
-
-            //DTO를 구성해 -> 들어갈 정보들
-            //requestParameters.path("expressBusCount") -> requestParameters는 앞의 예시와 같이
-            //itinerariesNode의 경우 .get(0).path("fare").path("regular").path("totalPrice");
-            //itinerariesNode의 totalTime의 경우 .get(0).path("totalTime);
-            //legs의 경우에는 여러 index가 있어서 for문으로 전부 돌아서 원하는 정보 위와 같이 넣어주면 될 거 같음
-
-            return null;
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return null; // 오류 발생 시 null 반환
-        }
-    }
-*/
     @Transactional
     public JsonNode getJsonByTransitRoute(String departure, String destination, int lang, String format, int count, String searchDttm) {
-       // System.out.println("경로 반환 함수 출발지 :" + departure + " 도착지 정보 " + destination);
         Map<String, Double> depCoordinates = this.getCoordinates(departure);
         Map<String, Double> destCoordinates = this.getCoordinates(destination);
 
-      //  System.out.println("출발지 위치 :" + depCoordinates.get("latitude") + " " + depCoordinates.get("longitude") + " 도착지 위치 " + destCoordinates.get("latitude") + " " + destCoordinates.get("longitude"));
         String startY = Double.toString(depCoordinates.get("latitude"));
         String startX = Double.toString(depCoordinates.get("longitude"));
         String endY = Double.toString(destCoordinates.get("latitude"));
@@ -386,34 +201,27 @@ public class TMapService {
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
-           // System.out.println("Url : " + request.uri().toString());
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             String body = response.body();
-           // System.out.println("body : " + body);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(body);
 
             if (rootNode.has("result") && rootNode.get("result").get("status").asInt() == 11) {
-              //  System.out.println("출발지와 도착지 간 거리가 가까움. 도보 경로를 반환합니다.");
                 return getJsonByWalkRoute(departure, destination);
             }
-
-            return rootNode; // JSON 응답을 그대로 반환
+            return rootNode;
 
         } catch (IOException | InterruptedException e) {
-        //    System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return null; // 오류 발생 시 null 반환
+            return null;
         }
     }
 
     @Transactional
     public PathResponseDTO getTransitRoute2(String departure, String destination, int lang, String format, int count, String searchDttm) {
-       // System.out.println("경로 반환 함수 출발지 :" + departure + " 도착지 정보 " + destination);
         Map<String, Double> depCoordinates = this.getCoordinates(departure);
         Map<String, Double> destCoordinates = this.getCoordinates(destination);
 
-      //  System.out.println("출발지 위치 :" + depCoordinates.get("latitude") + " " + depCoordinates.get("longitude") + " 도착지 위치 " + destCoordinates.get("latitude") + " " + destCoordinates.get("longitude"));
         String startY = Double.toString(depCoordinates.get("latitude"));
         String startX = Double.toString(depCoordinates.get("longitude"));
         String endY = Double.toString(destCoordinates.get("latitude"));
@@ -431,33 +239,25 @@ public class TMapService {
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
 
-         //   System.out.println("Url : " + request.uri().toString());
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             String body = response.body();
-          //  System.out.println("body : " + body);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(body);
 
             if (rootNode.has("error")) {
                 System.out.println("에러입니다");
-                return null; // 오류가 있는 경우 null 반환
+                return null;
             }
-
-            // JSON 응답을 PathResponseDTO 객체로 매핑
-            PathResponseDTO pathResponseDTO = mapper.treeToValue(rootNode, PathResponseDTO.class);
-            return pathResponseDTO;
-
+            return mapper.treeToValue(rootNode, PathResponseDTO.class);
         } catch (IOException | InterruptedException e) {
             System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return null; // 오류 발생 시 null 반환
+            return null;
         }
     }
 
-    //보행자 경로 -> 대중교통 경로 반환할때 거리가 너무 가까우면 보행자경로 반환
     @Transactional
     public JsonNode getJsonByWalkRoute(String departure, String destination) {
-      //  System.out.println("보행자 경로도 들어왔어용");
         Map<String, Double> depCoordinates = this.getCoordinates(departure);
         Map<String, Double> destCoordinates = this.getCoordinates(destination);
 
@@ -467,7 +267,6 @@ public class TMapService {
         Float endX = destCoordinates.get("longitude").floatValue();
 
         try {
-            // departure와 destination을 UTF-8로 인코딩
             String encodedDeparture = URLEncoder.encode(departure, StandardCharsets.UTF_8.toString());
             String encodedDestination = URLEncoder.encode(destination, StandardCharsets.UTF_8.toString());
 
@@ -485,21 +284,20 @@ public class TMapService {
 
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             String body = response.body();
-          //  System.out.println(body);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(body);
 
             if (rootNode.has("error")) {
                 System.out.println("에러입니다");
-                return rootNode; // 오류가 있는 경우 오류 응답 반환
+                return rootNode;
             }
 
-            return rootNode; // JSON 응답을 그대로 반환
+            return rootNode;
 
         } catch (IOException | InterruptedException e) {
             System.err.println("Failed to calculate transit time: " + e.getMessage());
-            return null; // 오류 발생 시 null 반환
+            return null;
         }
     }
 }

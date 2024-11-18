@@ -39,7 +39,6 @@ public class RestaurantResponseDTO {
     private int rank;
     private FoodType foodType;
 
-    // 음식점 상세보기
     public RestaurantResponseDTO(Long id, String name, String restaurantType, Double degree, String addressRoad, String addressNumber, String tel, String menus, int totalReviews, int totalTaste, int totalCost, int totalKind, int totalMood, int totalPark, Page<ReviewResponseDTO> reviewList,FoodType foodType) {
         this.id = id;
         this.name = name;
@@ -59,7 +58,6 @@ public class RestaurantResponseDTO {
         this.foodType = foodType;
     }
 
-    // 리뷰폼 안의 음식점 상세
     public RestaurantResponseDTO(Long id, String name, String restaurantType, Double degree, String addressRoad, String addressNumber, String tel, String menus, int totalReviews, int totalTaste, int totalCost, int totalKind, int totalMood, int totalPark) {
         this.id = id;
         this.name = name;
@@ -77,7 +75,6 @@ public class RestaurantResponseDTO {
         this.totalPark = totalPark;
     }
 
-    // Entity -> DTO
     public RestaurantResponseDTO(Restaurant restaurant) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
@@ -100,16 +97,6 @@ public class RestaurantResponseDTO {
         this.count= Math.toIntExact(restaurant.getCount());
     }
 
-    // 주간 순위 -> 음식 종류만 반환
-    public RestaurantResponseDTO(Long id, String name, int count, String restaurantType, int rank) {
-        this.id = id;
-        this.name = name;
-        this.count = count;
-        this.restaurantType = restaurantType;
-        this.rank = rank;
-    }
-
-    //음식점과 리뷰리스트 같이 반환
     public RestaurantResponseDTO(Restaurant restaurant, Page<ReviewResponseDTO> reviewList) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
