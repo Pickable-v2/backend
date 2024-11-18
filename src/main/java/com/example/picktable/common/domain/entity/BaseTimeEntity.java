@@ -23,14 +23,12 @@ public class BaseTimeEntity {
     @LastModifiedDate
     private String modifiedDate;
 
-    /* 해당 엔티티를 저장하기 이전에 실행 */
     @PrePersist
     public void onPrePersist() {
         this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
         this.modifiedDate = modifiedDate;
     }
 
-    /* 해당 엔티티를 업데이트하기 이전에 실행 */
     @PreUpdate
     public void onPreUpdate() {
         this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
@@ -48,5 +46,4 @@ public class BaseTimeEntity {
             e.printStackTrace();
         }
     }
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonUtil {
-
     public static List<Map<String, Object>> getListMapFromJsonArray(JSONArray jsonArray) {
         List<Map<String, Object>> list = new ArrayList<>();
 

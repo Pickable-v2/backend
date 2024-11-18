@@ -17,7 +17,6 @@ import java.util.HashMap;
 @Component
 @RequiredArgsConstructor
 public class WebSocketEventListener {
-
     private final SimpMessageSendingOperations messagingTemplate;
 
     @EventListener
@@ -62,6 +61,4 @@ public class WebSocketEventListener {
             log.info("User Disconnected: {}", user.getName());
         }
     }
-
-
 }

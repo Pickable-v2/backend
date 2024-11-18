@@ -73,7 +73,7 @@ public class ChatController {
      */
     @MessageMapping("/vote/register/{roomId}")
     @SendTo("/topic/room/{roomId}")
-    public VoteResponseDTO registerVote(@DestinationVariable("roomId") Long roomId, VoteRequestDTO voteRequest) throws BadRequestException {
+    public VoteResponseDTO createVote(@DestinationVariable("roomId") Long roomId, VoteRequestDTO voteRequest) throws BadRequestException {
         try {
             Vote vote = voteService.createVote(voteRequest.getMenu1(), voteRequest.getMenu2());
             chatService.createVote(roomId, vote);
@@ -135,7 +135,7 @@ public class ChatController {
      */
     @MessageMapping("/meet/state/{roomId}")
     @SendTo("/topic/room/{roomId}")
-    public ResponseEntity<?> getMeet(@PathVariable(name = "roomId", required = false) Long roomId) {
+    public ResponseEntity<?> findMeet(@PathVariable(name = "roomId", required = false) Long roomId) {
         MeetResponseDTO meet = chatService.findMeetById(roomId);
         return new ResponseEntity<>(meet, HttpStatus.OK);
     }
@@ -179,7 +179,7 @@ public class ChatController {
      */
     @MessageMapping("/departure/register/{roomId}")
     @SendTo("/topic/room/{roomId}")
-    public ResponseEntity<DepartureResponseDTO> registerDeparture(@DestinationVariable("roomId") Long roomId, String departures) throws BadRequestException {
+    public ResponseEntity<DepartureResponseDTO> createDeparture(@DestinationVariable("roomId") Long roomId, String departures) throws BadRequestException {
         ChatRoom room = chatRoomRepository.findOneById(roomId);
         if (room == null) {
             throw new IllegalArgumentException("존재하지 않는 채팅방입니다.");
