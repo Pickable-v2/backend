@@ -12,16 +12,10 @@ public class WeeklyFoodTypeRankResponseDTO {
     private Long id;
     private String date;
     private List<FoodTypeResponseDTO> topFoodTypes;
+
     public WeeklyFoodTypeRankResponseDTO(Long id, String date, List<FoodTypeResponseDTO> topFoodTypes) {
         this.id=id;
         this.date = date;
-        this.topFoodTypes = topFoodTypes;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public void setTopRestaurants(List<FoodTypeResponseDTO> topFoodTypes) {
         this.topFoodTypes = topFoodTypes;
     }
 }

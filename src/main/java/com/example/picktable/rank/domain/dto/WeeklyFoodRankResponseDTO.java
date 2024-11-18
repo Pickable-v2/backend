@@ -18,11 +18,4 @@ public class WeeklyFoodRankResponseDTO {
         this.date = date;
         this.topFoods = topFoods;
     }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public void setTopFood(List<FoodResponseDTO> topFoods) {
-        this.topFoods = topFoods;
-    }
 }

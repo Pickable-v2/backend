@@ -37,7 +37,6 @@ public class RankService {
     private final FoodRepository foodRepository;
     private final FoodTypeRepository foodTypeRepository;
 
-    //주간 음식종류 순위
     @Transactional
     public WeeklyFoodTypeRankResponseDTO getTop5RestaurantsByCount() {
         List<FoodType> allFoodTypes = foodTypeRepository.findAll();
@@ -58,7 +57,7 @@ public class RankService {
 
         WeeklyFoodTypeRank weeklyFoodTypeRank = new WeeklyFoodTypeRank();
         weeklyFoodTypeRank.setDate(currentDate);
-        weeklyFoodTypeRank.setFoodTypes(foodTypeResponseDTOS); // Assuming this sets the food types, you may want to rename the method
+        weeklyFoodTypeRank.setFoodTypes(foodTypeResponseDTOS);
         weeklyFoodTypeRankRepository.save(weeklyFoodTypeRank);
 
         return new WeeklyFoodTypeRankResponseDTO(weeklyFoodTypeRank.getId(),currentDate, foodTypeResponseDTOS);
@@ -72,46 +71,31 @@ public class RankService {
                 rank
         );
     }
-    // 음식 Type count 초기화
+
     @Transactional
     public void resetRestaurantCounts() {
         List<FoodType> allFoodTypes = foodTypeRepository.findAll();
         for (FoodType foodType : allFoodTypes) {
-            foodType.setCount(0L); // count 필드를 0으로 초기화
+            foodType.setCount(0L);
         }
         foodTypeRepository.saveAll(allFoodTypes);
     }
 
-    //음식 count 초기화
     @Transactional
     public void resetFoodCounts() {
         List<Food> allFoods = foodRepository.findAll();
         for (Food food : allFoods) {
-            food.setCount(0L); // count 필드를 0으로 초기화
+            food.setCount(0L);
         }
         foodRepository.saveAll(allFoods);
     }
 
-    @Scheduled(cron = "0 0 0 * * MON") // 매주 월요일 0시에 실행
+    @Scheduled(cron = "0 0 0 * * MON")
     @Transactional
     public void updateWeeklyRankings() {
-        // 1. 주간 순위 업데이트
         getTop5RestaurantsByCount();
-        // 2. restaurant count 초기화
         resetRestaurantCounts();
-        // 3. food count 초기화
         resetFoodCounts();
-    }
-
-    @Transactional
-    public RestaurantResponseDTO convertToRestaurantDTO(Restaurant restaurant, int rank) {
-        return new RestaurantResponseDTO(
-                restaurant.getId(),
-                restaurant.getName(),
-                Math.toIntExact(restaurant.getCount()),
-                restaurant.getFoodType().getFoodTypeName(),
-                rank
-        );
     }
 
     @Transactional
@@ -135,7 +119,6 @@ public class RankService {
         return new WeeklyFoodRankResponseDTO(weeklyFoodRank.getId(), currentDate, foodResponseDTOS);
     }
 
-    // food -> foodResponse
     @Transactional
     public FoodResponseDTO convertToFoodDto(Food food, Long rank) {
         return new FoodResponseDTO(
@@ -146,7 +129,6 @@ public class RankService {
         );
     }
 
-    //FoodType init
     public void initData() {
             initFoodTypeData("한식", Arrays.asList("닭요리", "추어", "냉면", "한식뷔페", "기사식당", "국밥", "한식", "한정식", "두부전문점", "해장국", "불고기,두루치기", "호프,요리주점", "철판요리", "설렁탕", "실내포장마차", "쌈밥", "술집", "퓨전한식", "뷔페"));
             initFoodTypeData("중식", Arrays.asList("중국요리", "중식", "양꼬치"));
@@ -182,7 +164,7 @@ public class RankService {
         List<Restaurant> restaurants = restaurantRepository.findAll();
 
         for (Restaurant restaurant : restaurants) {
-            restaurant.setCount(0L);  // assuming count is of type Long
+            restaurant.setCount(0L);
         }
 
         restaurantRepository.saveAll(restaurants);
@@ -193,7 +175,7 @@ public class RankService {
         List<Food> foods = foodRepository.findAll();
 
         for (Food food : foods) {
-            food.setCount(0L);  // assuming count is of type Long
+            food.setCount(0L);
         }
 
        foodRepository.saveAll(foods);
