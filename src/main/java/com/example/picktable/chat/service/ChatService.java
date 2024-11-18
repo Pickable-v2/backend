@@ -22,12 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Slf4j
 public class ChatService {
-
+    private final FoodService foodService;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRepository chatRepository;
     private final MeetRepository meetRepository;
     private final VoteRepository voteRepository;
-    private final FoodService foodService;
 
     /**
      * 채팅방 내 약속 조회
@@ -55,8 +54,6 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 채팅방입니다."));
         chatRoom.addVote(vote);
-//        vote.setVoteCount1(0L); // <-- 추가된 부분
-//        vote.setVoteCount2(2L); // <-- 추가된 부분
         voteRepository.save(vote);
         vote = voteRepository.findById(vote.getId()).orElseThrow(() -> new BadRequestException("Vote not found"));
         chatRoomRepository.save(chatRoom);
@@ -91,7 +88,6 @@ public class ChatService {
      */
     public void endMeet(Long meetId) throws BadRequestException {
         Meet meet = meetRepository.findById(meetId).orElseThrow(() -> new BadRequestException("존재하지 않는 약속입니다."));
-        // 약속 종료 로직을 여기에 추가합니다 (예: 상태 변경)
         meetRepository.save(meet);
     }
 }

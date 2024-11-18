@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class VoteChatResponseDTO {
-
     private Long roomId;
     private Long menu1Count;
     private Long menu2Count;

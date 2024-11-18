@@ -125,13 +125,8 @@ public class ChatController {
     @MessageMapping("/vote/end/{roomId}/{voteId}")
     @SendTo("/topic/room/{roomId}")
     public MeetResponseDTO endVoteAndSaveMenu(@DestinationVariable("voteId") Long voteId, @DestinationVariable("roomId") Long roomId) throws BadRequestException {
-//        try {
             String maxVotedMenu = voteService.getMostVotedMenu(voteId);
             return meetService.registerMeetMenu(maxVotedMenu, roomId);
-//        } catch (Exception e) {
-//            log.error("Error ending vote for voteId {}: {}", voteId, e.getMessage());
-//            throw new BadRequestException("Failed to end vote and save menu", e);
-//        }
     }
 
     /**
@@ -167,24 +162,6 @@ public class ChatController {
                 .meetTime(meet.getMeetTime())
                 .build();
     }
-
-    /**
-     * 채팅방 내 약속 수정
-     * @param meetId
-     * @param meetRequestDTO
-     */
-//    @MessageMapping("/meet/update/{roomId}/{meetId}")
-//    @SendTo("/topic/room/{roomId}")
-//    public MeetChatResponseDTO updateMeet(@DestinationVariable("meetId") Long meetId, MeetRequestDTO meetRequestDTO) throws BadRequestException {
-//        Meet updatedMeet = chatService.updateMeet(meetId, meetRequestDTO.getMeetLocate(), meetRequestDTO.getMeetTime());
-//
-//        return MeetChatResponseDTO.builder()
-//                .roomId(updatedMeet.getChat().getRoom().getId())
-//                .meetLocate(updatedMeet.getMeetLocate())
-//                .meetMenu(updatedMeet.getMeetMenu())
-//                .meetTime(updatedMeet.getMeetTime())
-//                .build();
-//    }
 
     /**
      * 채팅방 내 약속 종료

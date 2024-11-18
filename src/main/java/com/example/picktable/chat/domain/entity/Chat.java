@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chat {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CHAT_ID")
     private Long id;
@@ -59,14 +58,7 @@ public class Chat {
         this.notice = notice;
         this.sender = sender;
     }
-    /**
-     * 채팅 생성
-     * @param room 채팅 방
-     * @param vote 투표
-     * @param meet 약속
-     * @param sender  보낸 이
-     * @return Chat Entity
-     */
+
     public static Chat createChat(ChatRoom room, Vote vote, Meet meet, String sender) {
         Chat chat = new Chat();
         chat.room = room;
@@ -76,11 +68,4 @@ public class Chat {
         chat.sendDate = LocalDateTime.now();
         return chat;
     }
-
-//    public void setMeet(Meet meet) {
-//        this.meet = meet;
-//        if (meet != null && meet.getChat() != this) {
-//            meet.setChat(this); // 연관 관계 설정
-//        }
-//    }
 }
