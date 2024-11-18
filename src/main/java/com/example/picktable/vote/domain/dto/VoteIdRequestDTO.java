@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VoteIdRequestDTO {
-
     public String menu1;
     public String menu2;
     private Long voteCount1;

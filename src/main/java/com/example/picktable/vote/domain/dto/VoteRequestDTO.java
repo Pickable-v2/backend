@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VoteRequestDTO {
-
     private String menu1;
     private String menu2;
 }

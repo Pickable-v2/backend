@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class VoteService {
-
     private final VoteRepository voteRepository;
 
     public Vote createVote(String menu1, String menu2) {
@@ -31,7 +30,6 @@ public class VoteService {
             return vote.getMenu2();
         }
         else {
-            // 투표수가 동일한 경우 처리 (예: 무작위 선택, null 반환 등)
             return "투표수가 동일합니다.";
         }
     }

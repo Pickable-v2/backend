@@ -22,7 +22,6 @@ import java.util.List;
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 public class VoteController {
-
     private final VoteService voteService;
     private final MeetService meetService;
 
