@@ -1,8 +1,10 @@
 package com.example.picktable.bookmark.domain.entity;
 
 import jakarta.persistence.*;
+
 import com.example.picktable.member.domain.entity.Member;
 import com.example.picktable.restaurant.domain.entity.Restaurant;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Bookmark {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKMARK_ID")
     private Long id;
 
@@ -31,13 +34,4 @@ public class Bookmark {
         this.member = member;
         this.restaurant = restaurant;
     }
-   /* public void setRestaurants(Restaurant restaurant) {
-        if (restaurant != null) {
-            if (restaurants == null) {
-                restaurants = new ArrayList<>();
-            }
-            restaurants.add(restaurant); // 리스트에 Restaurant 객체 추가
-        }
-    }*/
-
 }

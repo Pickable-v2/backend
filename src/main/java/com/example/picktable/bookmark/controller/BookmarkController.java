@@ -19,21 +19,18 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
 
-    //맛집 즐겨찾기
     @PostMapping("/api/restaurant/{restaurantId}/bookmark")
-    public Long bookmark(@PathVariable Long restaurantId) {
+    public Long addRestaurantBookmark(@PathVariable Long restaurantId) {
         BookmarkRequestDTO bookmarkRequestDTO = new BookmarkRequestDTO();
-        bookmarkService.save(restaurantId, bookmarkRequestDTO);
+        bookmarkService.addBookmark(restaurantId, bookmarkRequestDTO);
         return restaurantId;
     }
 
-    //즐겨찾기 취소
     @DeleteMapping("/api/restaurant/{restaurantId}/bookmark/{bookmarkId}")
-    public ResponseEntity<MsgResponseDTO> deleteBookmark(@PathVariable Long restaurantId, @PathVariable Long bookmarkId) {
-        return new ResponseEntity<>(bookmarkService.delete(restaurantId,bookmarkId), HttpStatus.OK);
+    public ResponseEntity<MsgResponseDTO> cancelRestaurantBookmark(@PathVariable Long restaurantId, @PathVariable Long bookmarkId) {
+        return new ResponseEntity<>(bookmarkService.deleteBookmark(restaurantId, bookmarkId), HttpStatus.OK);
     }
 
-    //즐겨찾기 조회
     @GetMapping("/restaurant/bookmark")
     public ResponseEntity<Page<BookmarkResponseDTO>> findAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, size = 10) Pageable pageable) {
         Page<BookmarkResponseDTO> page = bookmarkService.findAllBookmarks(pageable);
