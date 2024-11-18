@@ -64,6 +64,7 @@ public class Review extends BaseTimeEntity {
         this.stars=stars;
     }
 
+
     public Review(ReviewRequestDTO requestDTO){
         this.taste = requestDTO.getTaste();
         this.cost = requestDTO.getCost();
@@ -80,7 +81,6 @@ public class Review extends BaseTimeEntity {
         member.addReview(this);
     }
 
-    // 리뷰 수정
     public void updateReview(int cost, int park, int mood, int kind, int taste, double stars) {
         this.cost = cost;
         this.park = park;

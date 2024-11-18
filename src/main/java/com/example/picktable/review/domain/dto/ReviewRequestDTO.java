@@ -21,7 +21,6 @@ public class ReviewRequestDTO {
     private ReviewType reviewType;
     private double stars;
 
-    //리뷰 등록
     @Builder
     public ReviewRequestDTO(int taste, int mood, int park, int kind, int cost, ReviewType reviewType, double stars, Long totalLikes) {
         this.taste = taste;
@@ -34,7 +33,6 @@ public class ReviewRequestDTO {
         this.totalLikes = totalLikes;
     }
 
-    //DTO to Entity
     public Review toEntity(){
             return Review.builder()
                     .taste(taste)

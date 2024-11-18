@@ -2,6 +2,7 @@ package com.example.picktable.review.domain.dto;
 
 import com.example.picktable.review.domain.entity.Review;
 import com.example.picktable.review.domain.type.ReviewType;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,28 +25,26 @@ public class ReviewResponseDTO {
     private double stars;
     private Long member_id;
 
-
-    // review return 할때
     public ReviewResponseDTO(Review review) {
         if (review.getMember() != null) {
             this.member_id = review.getMember().getId();
         } else {
-            this.member_id = null;// 기존 크롤링한 데이터에는 member_id가 없음
+            this.member_id = null;
         }
-        if(review.getReviewType()!=null){
-            this.reviewType=review.getReviewType();
-        }else{
-            this.reviewType=ReviewType.NOT_CERTIFY;
+        if (review.getReviewType() != null) {
+            this.reviewType = review.getReviewType();
+        } else {
+            this.reviewType = ReviewType.NOT_CERTIFY;
         }
-       this.id = review.getId();
-       this.writers = review.getWriter();
-       this.cost = review.getCost();
-       this.park = review.getPark();
-       this.mood = review.getMood();
-       this.kind = review.getKind();
-       this.taste = review.getTaste();
-       this.totalLikes = review.getTotalLikes();
-       this.createdDate = review.getCreatedDate();
-       this.stars=review.getStars();
+        this.id = review.getId();
+        this.writers = review.getWriter();
+        this.cost = review.getCost();
+        this.park = review.getPark();
+        this.mood = review.getMood();
+        this.kind = review.getKind();
+        this.taste = review.getTaste();
+        this.totalLikes = review.getTotalLikes();
+        this.createdDate = review.getCreatedDate();
+        this.stars = review.getStars();
     }
 }
