@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/notices")
 @RequiredArgsConstructor
 public class NoticeController {
-
     private final NoticeService noticeService;
 
     @GetMapping("/{loginId}")
