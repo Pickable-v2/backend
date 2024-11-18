@@ -152,7 +152,6 @@ public class ReceiptService {
         for (Map<String, Object> as : m) {
             result.add((String) as.get("inferText"));
         }
-
         return result;
     }
 }

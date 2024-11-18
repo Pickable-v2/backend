@@ -41,11 +41,11 @@ public class ReceiptController {
         file.transferTo(tempFile);
 
         List<String> ocrResult = receiptService.callAPI("POST", tempFile.getPath(), secretKey, "jpeg");
-        tempFile.delete(); // 임시 파일 삭제
+        tempFile.delete();
 
-        String storeName = extractStoreName(ocrResult); // 추출된 텍스트에서 상점명 추출
+        String storeName = extractStoreName(ocrResult);
 
-        if (storeName != null && restaurantService.existsByName(storeName)) { // DB에 상점명이 존재하는지 확인
+        if (storeName != null && restaurantService.existsByName(storeName)) {
             Review.builder()
                     .reviewType(ReviewType.CERTIFY)
                     .build();
@@ -59,7 +59,6 @@ public class ReceiptController {
         for (int i = 0; i < ocrResult.size(); i++) {
             String line = ocrResult.get(i);
             if (line.contains("매장명") || line.contains("상호명") || line.contains("점포명")) {
-                // 매장명 또는 상호명 뒤에 나오는 단어를 상점명으로 간주
                 if (i + 1 < ocrResult.size()) {
                     return ocrResult.get(i + 1).trim();
                 }
