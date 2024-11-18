@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 public class MeetController {
-
     private final MeetService meetService;
     private final MeetRepository meetRepository;
 

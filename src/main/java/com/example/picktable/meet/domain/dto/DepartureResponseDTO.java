@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Builder
 public class DepartureResponseDTO {
-
     private Integer memberCount;
     private String meetMenu;
     private String meetDate;

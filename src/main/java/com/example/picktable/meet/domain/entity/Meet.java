@@ -12,10 +12,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Meet {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEET_ID")
     private Long id;
+
     private String meetLocate;
     private String meetMenu;
     private String meetTime;
@@ -46,11 +46,4 @@ public class Meet {
     public void setMeetMenu(String meetMenu) {
         this.meetMenu = meetMenu;
     }
-
-//    public void setChat(Chat chat) {
-//        this.chat = chat;
-//        if (chat != null && chat.getMeet() != this) {
-//            chat.setMeet(this); // 연관 관계 설정
-//        }
-//    }
 }
