@@ -18,7 +18,6 @@ public class MemberUpdateResponseDTO {
         this.age = age;
     }
 
-    /* Entity -> DTO */
     public MemberUpdateResponseDTO(Member member) {
         this.nickname = member.getNickname();
         this.gender = member.getGender();

@@ -73,12 +73,10 @@ public class Member {
         this.age = age;
     }
 
-    /* 리뷰 등록 */
     public void addReview(Review review){
         reviewList.add(review);
     }
 
-    /* 회원 정보 수정 */
     public void updateNickname(String nickname){
         this.nickname = nickname;
     }
@@ -89,7 +87,6 @@ public class Member {
         this.age = age;
     }
 
-    /* 패스워드 암호화 관련 */
     public void encodePassword(PasswordEncoder passwordEncoder){
         this.loginPw = passwordEncoder.encode(loginPw);
     }
@@ -97,7 +94,6 @@ public class Member {
         return passwordEncoder.matches(checkPW, getLoginPw());
     }
 
-    //== 권한 부여 ==//
     public void addUserAuthority() {
         this.role = RoleType.USER;
     }

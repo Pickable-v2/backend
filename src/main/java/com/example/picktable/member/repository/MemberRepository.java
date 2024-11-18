@@ -2,6 +2,7 @@ package com.example.picktable.member.repository;
 
 import com.example.picktable.friendship.domain.dto.FriendListResponseDTO;
 import com.example.picktable.member.domain.entity.Member;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +12,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-
     boolean existsByLoginId(String loginId);
+
     boolean existsByNickname(String nickname);
+
     Optional<Member> findByLoginId(String loginId);
+
     Set<Member> findAllByLoginIdIn(List<String> loginId);
+
     Page<FriendListResponseDTO> findByLoginIdContaining(String loginId, Pageable pageable);
 }

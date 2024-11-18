@@ -8,14 +8,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class LoginRequestDTO {
-    @NotEmpty
-    private final String loginId;
-    @NotEmpty
-    private final String loginPw;
-
+public record LoginRequestDTO(@NotEmpty String loginId, @NotEmpty String loginPw) {
     @JsonCreator
-    public LoginRequestDTO(@JsonProperty("loginId")String loginId, @JsonProperty("loginPw")String loginPw) {
+    public LoginRequestDTO(@JsonProperty("loginId") String loginId, @JsonProperty("loginPw") String loginPw) {
         this.loginId = loginId;
         this.loginPw = loginPw;
     }
