@@ -2,7 +2,7 @@ package com.example.picktable.member.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.member.domain.dto.JwtTokenDTO;
 import com.example.picktable.member.domain.dto.MemberResponseDTO;
 import com.example.picktable.member.domain.dto.login.LoginRequestDTO;

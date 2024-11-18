@@ -1,4 +1,4 @@
-package com.example.picktable.common.handler;
+package com.example.picktable.global.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

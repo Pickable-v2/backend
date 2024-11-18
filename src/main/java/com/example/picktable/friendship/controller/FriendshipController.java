@@ -1,7 +1,7 @@
 package com.example.picktable.friendship.controller;
 
 import jakarta.validation.Valid;
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.friendship.domain.dto.FriendListDTO;
 import com.example.picktable.friendship.domain.dto.FriendListResponseDTO;
 import com.example.picktable.friendship.domain.dto.FriendStatusResponseDTO;

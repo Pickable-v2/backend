@@ -1,4 +1,4 @@
-package com.example.picktable.common.domain.entity;
+package com.example.picktable.global.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

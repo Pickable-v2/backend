@@ -1,4 +1,4 @@
-package com.example.picktable.common.domain.type;
+package com.example.picktable.global.domain.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

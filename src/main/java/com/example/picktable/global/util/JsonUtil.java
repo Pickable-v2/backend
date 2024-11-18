@@ -1,4 +1,4 @@
-package com.example.picktable.common.util;
+package com.example.picktable.global.util;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

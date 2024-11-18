@@ -1,7 +1,7 @@
 package com.example.picktable.review.controller;
 
 import com.example.picktable.restaurant.domain.dto.RestaurantResponseDTO;
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.review.domain.dto.ReviewRequestDTO;
 import com.example.picktable.review.domain.dto.ReviewResponseDTO;
 import com.example.picktable.review.service.ReviewService;
