@@ -21,7 +21,6 @@ import java.util.Optional;
 @Transactional
 public class FoodService {
     private final FoodRepository foodRepository;
-    private final FoodTypeRepository foodTypeRepository;
     private static final String IMAGE_DIRECTORY = "src/main/resources/static/images";
 
     public String getImageRouteByFoodName(String foodName) throws BadRequestException {
@@ -39,7 +38,6 @@ public class FoodService {
     public Optional<Food> findByFoodName(String foodName) {
         return foodRepository.findByFoodName(foodName);
     }
-    //=========================이미지 업로드=================================
 
     public void updateImageRoutes() {
         try {

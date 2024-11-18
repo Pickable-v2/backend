@@ -19,7 +19,6 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 public class FoodController {
-
     private final FoodService foodService;
 
     @GetMapping("/main/image")
@@ -27,14 +26,12 @@ public class FoodController {
         return foodService.getImageRouteByFoodName(foodName);
     }
 
-    // 음식이미지 update
     @PatchMapping("/update-image-routes")
     public ResponseEntity<String> updateImageRoutes() {
         foodService.updateImageRoutes();
         return new ResponseEntity<>("Image routes updated successfully", HttpStatus.OK);
     }
 
-    //음식 이미지 반환
     @GetMapping("/image/{foodName}")
     public ResponseEntity<InputStreamResource> getImageByFoodName(@PathVariable String foodName) {
         Optional<Food> foodOpt = foodService.findByFoodName(foodName);
