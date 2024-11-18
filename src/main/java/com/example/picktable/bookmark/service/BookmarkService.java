@@ -2,7 +2,7 @@ package com.example.picktable.bookmark.service;
 
 import com.example.picktable.bookmark.domain.dto.BookmarkRequestDTO;
 import com.example.picktable.bookmark.domain.dto.BookmarkResponseDTO;
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.bookmark.domain.entity.Bookmark;
 import com.example.picktable.member.domain.entity.Member;
 import com.example.picktable.restaurant.domain.entity.Restaurant;

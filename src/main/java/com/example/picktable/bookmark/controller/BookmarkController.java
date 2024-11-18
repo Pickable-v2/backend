@@ -2,7 +2,7 @@ package com.example.picktable.bookmark.controller;
 
 import com.example.picktable.bookmark.domain.dto.BookmarkRequestDTO;
 import com.example.picktable.bookmark.domain.dto.BookmarkResponseDTO;
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.bookmark.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

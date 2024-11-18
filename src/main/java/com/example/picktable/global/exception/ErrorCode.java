@@ -1,4 +1,4 @@
-package com.example.picktable.common.exception;
+package com.example.picktable.global.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

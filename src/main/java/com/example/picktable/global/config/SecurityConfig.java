@@ -1,4 +1,4 @@
-package com.example.picktable.common.config;
+package com.example.picktable.global.config;
 
 import com.example.picktable.member.security.filter.JwtAuthenticationFilter;
 import com.example.picktable.member.security.service.JwtTokenProvider;
@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/", "/signup", "/signin","/api/signup", "/api/signin", "/confirmId", "/confirmNickname").permitAll()
+                        .requestMatchers("/", "/swagger-ui/**","/v3/api-docs/**", "/signup", "/signin","/api/signup", "/api/signin", "/confirmId", "/confirmNickname").permitAll()
                         .anyRequest().permitAll())
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")

@@ -2,7 +2,7 @@ package com.example.picktable.review.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import com.example.picktable.common.domain.entity.BaseTimeEntity;
+import com.example.picktable.global.domain.entity.BaseTimeEntity;
 import com.example.picktable.review.domain.dto.ReviewRequestDTO;
 import com.example.picktable.review.domain.type.ReviewType;
 import com.example.picktable.likes.domain.entity.Likes;

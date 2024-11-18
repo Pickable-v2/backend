@@ -2,7 +2,7 @@ package com.example.picktable.notice.domain.entity;
 
 import jakarta.persistence.*;
 import com.example.picktable.chat.domain.entity.Chat;
-import com.example.picktable.common.domain.entity.BaseTimeEntity;
+import com.example.picktable.global.domain.entity.BaseTimeEntity;
 import com.example.picktable.notice.domain.type.NoticeType;
 import com.example.picktable.member.domain.entity.Member;
 import lombok.Getter;

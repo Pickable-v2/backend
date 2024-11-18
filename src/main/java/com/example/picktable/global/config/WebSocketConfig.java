@@ -1,6 +1,6 @@
-package com.example.picktable.common.config;
+package com.example.picktable.global.config;
 
-import com.example.picktable.common.handler.StompHandler;
+import com.example.picktable.global.handler.StompHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

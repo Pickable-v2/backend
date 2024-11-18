@@ -50,7 +50,7 @@ public class ChatController {
     private final ChatRoomRepository chatRoomRepository;
     private final VoteRepository voteRepository;
     private final SimpMessageSendingOperations messagingTemplate;
-    private List<String> departureList = new ArrayList<>();
+    private final List<String> departureList = new ArrayList<>();
 
     /**
      * 친구 초대 할 때 초대경로로 메시지 뿌리기

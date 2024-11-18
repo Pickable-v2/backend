@@ -1,8 +1,8 @@
-package com.example.picktable.common.handler;
+package com.example.picktable.global.handler;
 
 import io.jsonwebtoken.Claims;
 import com.example.picktable.member.domain.entity.Member;
-import com.example.picktable.common.exception.WebSocketException;
+import com.example.picktable.global.exception.WebSocketException;
 import com.example.picktable.friendship.repository.FriendshipRepository;
 import com.example.picktable.member.repository.MemberRepository;
 import com.example.picktable.member.security.service.JwtTokenProvider;

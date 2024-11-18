@@ -1,6 +1,6 @@
 package com.example.picktable.receipt.service;
 
-import com.example.picktable.common.util.JsonUtil;
+import com.example.picktable.global.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

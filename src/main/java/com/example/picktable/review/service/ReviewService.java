@@ -1,6 +1,6 @@
 package com.example.picktable.review.service;
 
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.restaurant.domain.dto.RestaurantResponseDTO;
 import com.example.picktable.review.domain.dto.ReviewRequestDTO;
 import com.example.picktable.review.domain.dto.ReviewResponseDTO;
@@ -8,7 +8,6 @@ import com.example.picktable.foodType.domain.entity.FoodType;
 import com.example.picktable.member.domain.entity.Member;
 import com.example.picktable.restaurant.domain.entity.Restaurant;
 import com.example.picktable.review.domain.entity.Review;
-import com.example.picktable.review.domain.type.ReviewType;
 import com.example.picktable.foodType.repository.FoodTypeRepository;
 import com.example.picktable.member.repository.MemberRepository;
 import com.example.picktable.restaurant.repository.RestaurantRepository;

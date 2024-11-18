@@ -1,7 +1,7 @@
 package com.example.picktable.rank.domain.entity;
 
 import jakarta.persistence.*;
-import com.example.picktable.common.domain.entity.BaseTimeEntity;
+import com.example.picktable.global.domain.entity.BaseTimeEntity;
 import com.example.picktable.foodType.domain.dto.FoodTypeResponseDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

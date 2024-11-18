@@ -1,4 +1,4 @@
-package com.example.picktable.common.domain.dto;
+package com.example.picktable.global.domain.dto;
 
 import lombok.Getter;
 

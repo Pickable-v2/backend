@@ -1,6 +1,6 @@
 package com.example.picktable.receipt.controller;
 
-import com.example.picktable.common.domain.dto.MsgResponseDTO;
+import com.example.picktable.global.domain.dto.MsgResponseDTO;
 import com.example.picktable.review.domain.entity.Review;
 import com.example.picktable.review.domain.type.ReviewType;
 import com.example.picktable.receipt.service.ReceiptService;
