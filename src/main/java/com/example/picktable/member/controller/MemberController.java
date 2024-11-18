@@ -86,8 +86,8 @@ public class MemberController {
 
     @PostMapping("/api/signin")
     public JwtTokenDTO signIn(@RequestBody LoginRequestDTO requestDTO) {
-        String username = requestDTO.loginId();
-        String password = requestDTO.loginPw();
+        String username = requestDTO.getLoginId();
+        String password = requestDTO.getLoginPw();
         JwtTokenDTO jwtToken = memberService.signIn(username, password);
 
         log.info("request username = {}, password = {}", username, password);
