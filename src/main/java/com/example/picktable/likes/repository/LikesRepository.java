@@ -10,11 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Likes l WHERE l.review.id = :reviewId")
-    void deleteByReviewId(@Param("reviewId") Long reviewId);
     boolean existsByReviewIdAndMemberIdAndState(Long reviewId, Long memberId, boolean state);
     Optional<Likes> findByReviewIdAndMemberIdAndState(Long reviewId, Long memberId, boolean state);
-
 }
