@@ -28,10 +28,6 @@ public class ChatService {
     private final MeetRepository meetRepository;
     private final VoteRepository voteRepository;
 
-    /**
-     * 채팅방 내 약속 조회
-     * @param roomId
-     */
     @Transactional
     public MeetResponseDTO findMeetById(Long roomId) {
         log.info("채팅룸 메시지 조회를 시작합니다. [roomId : {}]", roomId);
@@ -46,10 +42,6 @@ public class ChatService {
                 .build();
     }
 
-    /**
-     * @param roomId
-     * @param vote
-     */
     public void createVote(Long roomId, Vote vote) throws BadRequestException {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 채팅방입니다."));
@@ -67,12 +59,6 @@ public class ChatService {
         return chatRoom.getCurrentUserNum();
     }
 
-    /**
-     *
-     * @param meetId
-     * @param meetLocate
-     * @param meetTime
-     */
     public Meet updateMeet(Long meetId, String meetLocate, String meetTime) throws BadRequestException {
         Meet meet = meetRepository.findById(meetId).orElseThrow(() -> new BadRequestException("존재하지 않는 약속입니다."));
         meet.updateMeet(meetLocate, meetTime);
@@ -82,10 +68,6 @@ public class ChatService {
         return meetRepository.save(meet);
     }
 
-    /**
-     * 약속 종료
-     * @param meetId 약속 id
-     */
     public void endMeet(Long meetId) throws BadRequestException {
         Meet meet = meetRepository.findById(meetId).orElseThrow(() -> new BadRequestException("존재하지 않는 약속입니다."));
         meetRepository.save(meet);

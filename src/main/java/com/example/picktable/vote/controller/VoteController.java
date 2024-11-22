@@ -7,6 +7,9 @@ import com.example.picktable.chatRoom.repository.ChatRoomRepository;
 import com.example.picktable.meet.service.MeetService;
 import com.example.picktable.restaurant.service.PathService;
 import com.example.picktable.vote.service.VoteService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -21,11 +24,13 @@ import java.util.List;
 @Slf4j
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
+@Tag(name = "Vote", description = "Vote API")
 public class VoteController {
     private final VoteService voteService;
     private final MeetService meetService;
 
     @PostMapping("/vote/end/{roomId}/{voteId}")
+    @Operation(description = "투표 종료 및 메뉴 저장")
     public MeetResponseDTO endVoteAndSaveMenu(@PathVariable("voteId") Long voteId, @PathVariable("roomId") Long roomId) throws BadRequestException {
         try {
             String maxVotedMenu = voteService.getMostVotedMenu(voteId);

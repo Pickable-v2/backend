@@ -50,7 +50,6 @@ public class ChatRoomService {
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("Room already exists", e);
         }
-
     }
 
     public List<ChatRoom> findAllRoom() {

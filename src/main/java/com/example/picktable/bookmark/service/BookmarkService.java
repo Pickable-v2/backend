@@ -44,7 +44,7 @@ public class BookmarkService {
     }
 
     @Transactional
-    public MsgResponseDTO deleteBookmark(Long restaurantId, Long bookmarkId) {
+    public MsgResponseDTO cancelBookmark(Long bookmarkId) {
         bookmarkRepository.deleteById(bookmarkId);
         return new MsgResponseDTO("즐겨찾기 취소", 200);
     }
