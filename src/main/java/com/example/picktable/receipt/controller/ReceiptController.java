@@ -5,6 +5,9 @@ import com.example.picktable.review.domain.entity.Review;
 import com.example.picktable.review.domain.type.ReviewType;
 import com.example.picktable.receipt.service.ReceiptService;
 import com.example.picktable.restaurant.service.RestaurantService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -23,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Receipt", description = "Receipt API")
 public class ReceiptController {
 
     @Value("${naver.service.secretKey}")
@@ -31,7 +35,8 @@ public class ReceiptController {
     private final RestaurantService restaurantService;
 
 
-    @PostMapping("/api/review/receipt")
+    @PostMapping("/review/receipt")
+    @Operation(description = "영수증 사진 업로드 및 인증")
     public ResponseEntity<MsgResponseDTO> uploadAndOcr(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new BadRequestException("파일이 비어있습니다");

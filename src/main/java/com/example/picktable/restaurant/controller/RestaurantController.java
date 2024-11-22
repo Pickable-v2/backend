@@ -10,6 +10,9 @@ import com.example.picktable.restaurant.domain.dto.RestaurantResponseDTO;
 import com.example.picktable.restaurant.service.PathService;
 import com.example.picktable.restaurant.service.RestaurantService;
 import com.example.picktable.restaurant.service.TMapService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,13 +28,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/restaurant")
+@Tag(name = "Restaurant", description = "Restaurant API")
 public class RestaurantController {
-
     private final RestaurantService restaurantService;
     private final TMapService tmapService;
     private final PathService pathService;
 
     @GetMapping("/search")
+    @Operation(description = "음식점 검색")
     public ResponseEntity<Page<RestaurantResponseDTO>> search(@RequestParam(name = "word", required = false) String word,
                                                               @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchRestaurants(word, pageable);
@@ -39,18 +43,21 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}/details")
+    @Operation(description = "음식점 상세 정보 조회")
     public ResponseEntity<RestaurantResponseDTO> showDetails(@PathVariable("restaurantId") Long id) {
         RestaurantResponseDTO dto = restaurantService.showDetails(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/{restaurantId}/review")
+    @Operation(description = "음식점 상세 정보 조회(리뷰만 조회)")
     public ResponseEntity<RestaurantResponseDTO> showDetailsOnlyReviews(@PathVariable("restaurantId") Long id) {
         RestaurantResponseDTO dto = restaurantService.showDetailsOnlyReviews(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/findAll")
+    @Operation(description = "음식점 전체 조회")
     public ResponseEntity<Page<RestaurantResponseDTO>> findAll(
             @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         System.out.println("findAll 함수 들어옴");
@@ -59,6 +66,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/degree")
+    @Operation(description = "Degree로 음식점 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> getRestaurantsByDegree(@RequestParam(name = "word", required = false) String word,
                                                                               @PageableDefault(sort = "degree", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchRestaurants(word, pageable);
@@ -66,6 +74,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/reviews")
+    @Operation(description = "리뷰로부터 음식점 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> getRestaurantsByTotalReviews(@RequestParam(name = "word", required = false) String word,
                                                                                     @PageableDefault(sort = "totalReviews", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchRestaurants(word, pageable);
@@ -73,6 +82,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlyrestaurants")
+    @Operation(description = "음식점만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyRestaurant(@RequestParam(name = "word", required = false) String word,
                                                                           @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyRestaurant(word, pageable);
@@ -80,6 +90,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlycafes")
+    @Operation(description = "카페만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyCafe(@RequestParam(name = "word", required = false) String word,
                                                                     @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyCafes(word, pageable);
@@ -87,6 +98,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/routes")
+    @Operation(description = "경로로 음식점 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> getRestaurantsByRoutes(
             @RequestParam(name = "word", required = false) String word,
             @RequestParam(name = "startX") Float startX,
@@ -111,6 +123,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlycafes/reviews")
+    @Operation(description = "리뷰로부터 카페만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyCafeForTotalReviews(@RequestParam(name = "word", required = false) String word,
                                                                                    @PageableDefault(sort = "totalReviews", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyCafes(word, pageable);
@@ -118,6 +131,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlycafes/degree")
+    @Operation(description = "Degree로부터 카페만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyCafeForDegree(@RequestParam(name = "word", required = false) String word,
                                                                              @PageableDefault(sort = "degree", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyCafes(word, pageable);
@@ -125,6 +139,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlyrestaurants/reviews")
+    @Operation(description = "리뷰로부터 음식점만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyRestaurantForTotalReviews(@RequestParam(name = "word", required = false) String word,
                                                                                          @PageableDefault(sort = "totalReviews", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyRestaurant(word, pageable);
@@ -132,6 +147,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/onlyrestaurants/degree")
+    @Operation(description = "Degree로부터 음식점만 반환")
     public ResponseEntity<Page<RestaurantResponseDTO>> findOnlyRestaurantForDegree(@RequestParam(name = "word", required = false) String word,
                                                                                    @PageableDefault(sort = "degree", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         Page<RestaurantResponseDTO> page = restaurantService.searchOnlyRestaurant(word, pageable);
@@ -139,6 +155,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/search/totalPath2")
+    @Operation(description = "대중교통 경로 반환2")
     public ResponseEntity<PathResponseDTO> getTransitRoute2(
             @RequestBody PathRequestDTO totalTimeRequest) {
         String departure = totalTimeRequest.getDeparture();
@@ -155,6 +172,7 @@ public class RestaurantController {
     }
 
    @PostMapping("/search/getPath")
+   @Operation(description = "대중교통 경로 반환")
     public ResponseEntity<JsonNode> getTransitRoute(@RequestBody PathRequestDTO totalTimeRequest) {
         String departure = totalTimeRequest.getDeparture();
        String destination = totalTimeRequest.getDestination();
@@ -168,12 +186,14 @@ public class RestaurantController {
    }
 
     @PostMapping("/search/getWeight")
+    @Operation(description = "가중치 정보 반환")
     public ResponseEntity<List<PersonalPathDTO>> getWeightInfo(@RequestBody RecommendedRestaurantsDTO request) {
         List<PersonalPathDTO> personalPathList = pathService.getWeight(request.getKeyword(), request.getStartAddress());
         return ResponseEntity.ok(personalPathList);
     }
 
     @PostMapping("/search/getWalkPath")
+    @Operation(description = "도보 경로 반환")
     public ResponseEntity<JsonNode> getWalkRoute(@RequestBody PathRequestDTO totalTimeRequest) {
         String departure = totalTimeRequest.getDeparture();
         String destination = totalTimeRequest.getDestination();
@@ -189,6 +209,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/search/showAddress")
+    @Operation(description = "주소 테스트")
     public ResponseEntity<String> addressTest() {
         String address = tmapService.getAddressByCoordinates2(128.3592031, 36.0888125);
        return ResponseEntity.ok(address);
