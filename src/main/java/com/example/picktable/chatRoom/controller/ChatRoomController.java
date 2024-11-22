@@ -12,6 +12,8 @@ import com.example.picktable.member.service.MemberService;
 import com.example.picktable.restaurant.domain.dto.PersonalPathDTO;
 import com.example.picktable.restaurant.service.PathService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,17 +33,15 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "ChatRoom", description = "ChatRoom API")
 public class ChatRoomController {
     private final MemberService memberService;
     private final PathService pathService;
     private final ChatRoomService chatRoomService;
     private final ChatRoomRepository chatRoomRepository;
 
-    /**
-     * 채팅방 생성 및 친구 초대
-     * @param requestDTO
-     */
     @PostMapping("/room/create")
+    @Operation(description = "채팅방 생성 및 친구 초대")
     public ResponseEntity<ChatRoom> createRoomAndInviteFriends(@RequestBody RoomAndFriendsRequestDTO requestDTO) {
         try {
             Member creator = memberService.findByLoginId(SecurityUtil.getLoginId())
@@ -59,10 +59,8 @@ public class ChatRoomController {
         }
     }
 
-    /**
-     * 내가 속한 채팅방 전체 조회
-     */
     @GetMapping("/chat/rooms")
+    @Operation(description = "내가 속한 채팅방 전체 조회")
     public ResponseEntity<?> getChatRoom() {
         List<ChatRoom> chatRooms = chatRoomService.findAllRoom();
         List<ChatRoomDTO> includeChatRooms = new ArrayList<>();
@@ -90,6 +88,7 @@ public class ChatRoomController {
     }
 
     @PostMapping("/departure/register/{roomId}")
+    @Operation(description = "채팅방 내 출발지 등록")
     public ResponseEntity<List<PersonalPathDTO>> registerDeparture(@PathVariable("roomId") Long roomId, @RequestBody List<String> departures) {
         ChatRoom room = chatRoomRepository.findOneById(roomId);
         if (room == null) {

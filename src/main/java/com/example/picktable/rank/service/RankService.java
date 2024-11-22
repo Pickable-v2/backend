@@ -45,7 +45,7 @@ public class RankService {
         List<FoodType> topFoodTypes = allFoodTypes.stream()
                 .sorted(Comparator.comparing(FoodType::getCount).reversed())
                 .limit(5)
-                .collect(Collectors.toList());
+                .toList();
 
         List<FoodTypeResponseDTO> foodTypeResponseDTOS = IntStream.range(0, topFoodTypes.size())
                 .mapToObj(i -> {

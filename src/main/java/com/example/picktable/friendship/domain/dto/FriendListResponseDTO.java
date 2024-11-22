@@ -15,7 +15,6 @@ public class FriendListResponseDTO {
         this.nickname = nickname;
     }
 
-    /* Entity -> DTO */
     public FriendListResponseDTO(Member member) {
         this.loginId = member.getLoginId();
         this.nickname = member.getNickname();

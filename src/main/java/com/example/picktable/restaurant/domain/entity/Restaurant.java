@@ -1,10 +1,11 @@
 package com.example.picktable.restaurant.domain.entity;
 
+import com.example.picktable.foodType.domain.entity.FoodType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import com.example.picktable.bookmark.domain.entity.Bookmark;
 import com.example.picktable.review.domain.entity.Review;
-import com.example.picktable.foodType.domain.entity.FoodType;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

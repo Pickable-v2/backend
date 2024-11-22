@@ -1,20 +1,26 @@
 package com.example.picktable.restaurant.service;
 
-import com.example.picktable.restaurant.domain.dto.PersonalPathDTO;
-import com.example.picktable.restaurant.domain.dto.RestaurantResponseDTO;
-import com.example.picktable.restaurant.domain.entity.Restaurant;
-import com.example.picktable.restaurant.repository.RestaurantRepository;
-import com.example.picktable.review.service.ReviewService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.example.picktable.restaurant.domain.dto.PersonalPathDTO;
+import com.example.picktable.restaurant.domain.dto.RestaurantResponseDTO;
+import com.example.picktable.restaurant.domain.entity.Restaurant;
+import com.example.picktable.restaurant.repository.RestaurantRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

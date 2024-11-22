@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ReviewService {
-
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;

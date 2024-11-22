@@ -20,6 +20,9 @@ import com.example.picktable.member.service.MemberService;
 import com.example.picktable.meet.repository.MeetRepository;
 import com.example.picktable.vote.repository.VoteRepository;
 import com.example.picktable.vote.service.VoteService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -39,6 +42,7 @@ import java.util.Set;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@Tag(name = "Chat", description = "Chat API")
 public class ChatController {
 
     private final ChatService chatService;
@@ -52,11 +56,8 @@ public class ChatController {
     private final SimpMessageSendingOperations messagingTemplate;
     private final List<String> departureList = new ArrayList<>();
 
-    /**
-     * 친구 초대 할 때 초대경로로 메시지 뿌리기
-     * @param requestDTO
-     */
     @MessageMapping("/invite")
+    @Operation(description = "채팅 친구 초대")
     public void inviteFriendsToRoom(RoomAndFriendsRequestDTO requestDTO) {
         ChatRoom chatRoom = chatRoomService.findByRoomId(requestDTO.getRoomId());
         Set<Member> friends = memberService.findAllByLoginIds(requestDTO.getFriendLoginIds());
@@ -66,13 +67,9 @@ public class ChatController {
         }
     }
 
-    /**
-     * 채팅방 내 투표 생성
-     * @param roomId
-     * @param voteRequest
-     */
     @MessageMapping("/vote/register/{roomId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅 방 내 투표 생성")
     public VoteResponseDTO createVote(@DestinationVariable("roomId") Long roomId, VoteRequestDTO voteRequest) throws BadRequestException {
         try {
             Vote vote = voteService.createVote(voteRequest.getMenu1(), voteRequest.getMenu2());
@@ -85,12 +82,9 @@ public class ChatController {
         }
     }
 
-    /**
-     * 메뉴 투표 Count 실시간 관리
-     * @param voteId
-     */
     @MessageMapping("/vote/increment/{roomId}/{voteId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅 방 내 투표 수 증가")
     public VoteResponseDTO incrementVote(@DestinationVariable("roomId") Long roomId, @DestinationVariable("voteId") Long voteId, VoteIdRequestDTO voteRequest) throws BadRequestException {
         try {
             Vote vote = voteService.getVote(voteId);
@@ -118,35 +112,25 @@ public class ChatController {
         }
     }
 
-    /**
-     * 메뉴 투표 종료 및 메뉴 저장
-     * @param voteId
-     */
     @MessageMapping("/vote/end/{roomId}/{voteId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅방 내 메뉴 투표 종료 및 메뉴 저장")
     public MeetResponseDTO endVoteAndSaveMenu(@DestinationVariable("voteId") Long voteId, @DestinationVariable("roomId") Long roomId) throws BadRequestException {
             String maxVotedMenu = voteService.getMostVotedMenu(voteId);
             return meetService.registerMeetMenu(maxVotedMenu, roomId);
     }
 
-    /**
-     * 채팅방 내 약속 조회
-     * @param roomId
-     */
     @MessageMapping("/meet/state/{roomId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅방 내 약속 종료")
     public ResponseEntity<?> findMeet(@PathVariable(name = "roomId", required = false) Long roomId) {
         MeetResponseDTO meet = chatService.findMeetById(roomId);
         return new ResponseEntity<>(meet, HttpStatus.OK);
     }
 
-    /**
-     * 채팅방 내 약속 생성
-     * @param roomId
-     * @param meetRequestDTO
-     */
     @MessageMapping("/meet/register/{roomId}/{meetId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅방 내 약속 생성")
     public MeetChatResponseDTO createMeet(@DestinationVariable("roomId") Long roomId, @DestinationVariable("meetId") Long meetId, MeetRequestDTO meetRequestDTO) throws BadRequestException {
         Meet meet = meetService.findByMeetId(meetId);
         meet.setMeetLocate(meetRequestDTO.getMeetLocate());
@@ -163,22 +147,16 @@ public class ChatController {
                 .build();
     }
 
-    /**
-     * 채팅방 내 약속 종료
-     * @param meetId
-     */
     @MessageMapping("/meet/end/{meetId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅방 내 약속 종료")
     public void endMeet(@DestinationVariable("meetId") Long meetId) throws BadRequestException {
         chatService.endMeet(meetId);
     }
 
-    /**
-     * 출발지 등록
-     * @param departures
-     */
     @MessageMapping("/departure/register/{roomId}")
     @SendTo("/topic/room/{roomId}")
+    @Operation(description = "채팅방 내 출발지 등록")
     public ResponseEntity<DepartureResponseDTO> createDeparture(@DestinationVariable("roomId") Long roomId, String departures) throws BadRequestException {
         ChatRoom room = chatRoomRepository.findOneById(roomId);
         if (room == null) {
