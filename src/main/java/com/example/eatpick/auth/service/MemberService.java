@@ -19,6 +19,7 @@ import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.repository.MemberRepository;
 import com.example.eatpick.common.security.domain.dto.JwtToken;
 import com.example.eatpick.common.security.service.JwtTokenProvider;
+import com.example.eatpick.common.security.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class MemberService {
     }
 
     public MyPageUpdateResponse myPageUpdate(MyPageUpdateRequest request) {
-        Member member = findByLoginId(request.loginId()).orElseThrow(
+        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
             () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
 
         member.update(request);
