@@ -1,9 +1,8 @@
 package com.example.eatpick.auth.domain.dto.request;
 
-import lombok.Getter;
+public record SignInRequest(
+    String loginId,
+    String loginPw
+) {
 
-@Getter
-public class SignInRequest {
-    private String loginId;
-    private String loginPw;
 }

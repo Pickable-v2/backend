@@ -4,21 +4,14 @@ import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.domain.type.GenderType;
 import com.example.eatpick.auth.domain.type.RoleType;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SignUpRequest {
-    private String loginId;
-    private String loginPw;
-    private String verifiedLoginPw;
-    private String nickname;
-    private GenderType gender;
-    private int age;
+public record MemberRequest(
+    String loginId,
+    String loginPw,
+    String verifiedLoginPw,
+    String nickname,
+    GenderType gender,
+    int age
+) {
 
     public Member toEntity() {
         return Member.builder()
