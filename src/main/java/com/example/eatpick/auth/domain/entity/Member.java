@@ -1,5 +1,7 @@
 package com.example.eatpick.auth.domain.entity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.example.eatpick.auth.domain.type.GenderType;
 import com.example.eatpick.auth.domain.type.RoleType;
 
@@ -56,5 +58,9 @@ public class Member {
         this.gender = gender;
         this.role = role;
         this.age = age;
+    }
+
+    public void encodePassword(PasswordEncoder passwordEncoder){
+        this.loginPw = passwordEncoder.encode(loginPw);
     }
 }

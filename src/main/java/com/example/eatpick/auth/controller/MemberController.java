@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.eatpick.auth.domain.dto.request.SignInRequest;
 import com.example.eatpick.auth.domain.dto.request.SignUpRequest;
+import com.example.eatpick.auth.domain.dto.response.SignInResponse;
 import com.example.eatpick.auth.domain.dto.response.SignUpResponse;
 import com.example.eatpick.auth.service.MemberService;
 
@@ -26,6 +28,13 @@ public class MemberController {
     @Operation(description = "회원가입")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest request) {
         SignUpResponse response = memberService.signUp(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-in")
+    @Operation(description = "로그인")
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest request) {
+        SignInResponse response = memberService.signIn(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
