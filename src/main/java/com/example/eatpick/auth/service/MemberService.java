@@ -50,6 +50,16 @@ public class MemberService {
         return SignInResponse.of(request.loginId(), request.loginPw(), jwtToken);
     }
 
+    public MyPageUpdateResponse myPageUpdate(MyPageUpdateRequest request) {
+        Member member = findByLoginId(request.loginId()).orElseThrow(
+            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
+
+        member.update(request);
+        memberRepository.save(member);
+
+        return MyPageUpdateResponse.from(member);
+    }
+
     public Optional<Member> findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId);
     }

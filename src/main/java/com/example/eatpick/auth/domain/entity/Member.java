@@ -66,8 +66,8 @@ public class Member {
     }
 
     public void update(MyPageUpdateRequest request) {
-        this.nickname = request.getNickname();
-        this.gender = request.getGender();
-        this.age = request.getAge();
+        this.nickname = request.nickname();
+        this.gender = request.gender();
+        this.age = request.age();
     }
 }
