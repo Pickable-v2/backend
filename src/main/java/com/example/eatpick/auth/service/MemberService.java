@@ -19,6 +19,7 @@ import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.repository.MemberRepository;
 import com.example.eatpick.common.security.domain.dto.JwtToken;
 import com.example.eatpick.common.security.service.JwtTokenProvider;
+import com.example.eatpick.common.security.util.SecurityUtil;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,13 @@ public class MemberService {
         return MemberResponse.from(member);
     }
 
+    public void withdraw() {
+        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
+            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
+
+        memberRepository.delete(member);
+    }
+
     public SignInResponse signIn(SignInRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             request.loginId(), request.loginPw());
@@ -51,7 +59,7 @@ public class MemberService {
     }
 
     public MyPageUpdateResponse myPageUpdate(MyPageUpdateRequest request) {
-        Member member = findByLoginId(request.loginId()).orElseThrow(
+        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
             () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
 
         member.update(request);
@@ -62,5 +70,17 @@ public class MemberService {
 
     public Optional<Member> findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId);
+    }
+
+    public boolean checkLoginId(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
+
+    public boolean checkNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
+
+    public boolean checkPassword(String loginPw, String verifiedLoginPw) {
+        return loginPw.equals(verifiedLoginPw);
     }
 }

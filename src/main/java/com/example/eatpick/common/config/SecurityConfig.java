@@ -30,7 +30,8 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/**", "/sign-up", "/sign-in").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/member/sign-up", "/member/sign-in",
+                    "/member/check-loginId", "/member/check-nickname", "/member/check-password").permitAll()
                 .anyRequest().authenticated())
             .logout((logout) -> logout
                 .logoutSuccessUrl("/")
