@@ -64,4 +64,12 @@ public class MemberService {
     public Optional<Member> findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId);
     }
+
+    public boolean checkLoginId(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
+
+    public boolean checkNickname(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
 }

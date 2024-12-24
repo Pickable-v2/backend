@@ -39,4 +39,28 @@ public class MemberController {
         SignInResponse response = memberService.signIn(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PostMapping("/check-loginId")
+    @Operation(description = "아이디 중복 확인")
+    public ResponseEntity<?> checkLoginId(@RequestBody String loginId) {
+        boolean isLoginIdDuplicate = memberService.checkLoginId(loginId);
+
+        if (isLoginIdDuplicate) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/check-nickname")
+    @Operation(description = "닉네임 중복 확인")
+    public ResponseEntity<?> checkNickname(@RequestBody String nickname) {
+        boolean isNicknameDuplicate = memberService.checkNickname(nickname);
+
+        if (isNicknameDuplicate) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
 }
