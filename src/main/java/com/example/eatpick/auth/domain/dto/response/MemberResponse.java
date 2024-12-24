@@ -1,8 +1,14 @@
 package com.example.eatpick.auth.domain.dto.response;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.domain.type.GenderType;
 import com.example.eatpick.auth.domain.type.RoleType;
+import com.example.eatpick.memberPreferencesTaste.domain.entity.MemberPreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.entity.PreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.type.PreferencesType;
 
 public record MemberResponse(
     Long id,
@@ -12,11 +18,16 @@ public record MemberResponse(
     String nickname,
     GenderType gender,
     RoleType role,
-    int age
+    int age,
+    List<PreferencesType> preferences
 ) {
 
     public static MemberResponse from(Member member) {
+        List<PreferencesType> preferences = member.getPreferences().stream()
+            .map(preference -> preference.getPreferencesTaste().getPreferencesType())
+            .toList();
+
         return new MemberResponse(member.getId(), member.getLoginId(), member.getLoginPw(), member.getVerifiedLoginPw(),
-            member.getNickname(), member.getGender(), member.getRole(), member.getAge());
+            member.getNickname(), member.getGender(), member.getRole(), member.getAge(), preferences);
     }
 }
