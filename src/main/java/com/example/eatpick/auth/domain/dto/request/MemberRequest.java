@@ -1,8 +1,13 @@
 package com.example.eatpick.auth.domain.dto.request;
 
+import java.util.List;
+
 import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.domain.type.GenderType;
 import com.example.eatpick.auth.domain.type.RoleType;
+import com.example.eatpick.memberPreferencesTaste.domain.entity.MemberPreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.entity.PreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.type.PreferencesType;
 
 public record MemberRequest(
     String loginId,
@@ -10,7 +15,8 @@ public record MemberRequest(
     String verifiedLoginPw,
     String nickname,
     GenderType gender,
-    int age
+    int age,
+    List<PreferencesType> preferences
 ) {
 
     public Member toEntity() {

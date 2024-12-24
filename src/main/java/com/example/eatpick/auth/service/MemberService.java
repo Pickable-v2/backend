@@ -20,6 +20,10 @@ import com.example.eatpick.auth.repository.MemberRepository;
 import com.example.eatpick.common.security.domain.dto.JwtToken;
 import com.example.eatpick.common.security.service.JwtTokenProvider;
 import com.example.eatpick.common.security.util.SecurityUtil;
+import com.example.eatpick.memberPreferencesTaste.domain.entity.MemberPreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.entity.PreferencesTaste;
+import com.example.eatpick.preferencesTaste.domain.type.PreferencesType;
+import com.example.eatpick.preferencesTaste.repository.PreferencesTasteRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PreferencesTasteRepository preferencesTasteRepository;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -36,6 +42,17 @@ public class MemberService {
     public MemberResponse signUp(MemberRequest request) {
         Member member = request.toEntity();
         member.encodePassword(passwordEncoder);
+
+        if (request.preferences() != null) {
+            for (PreferencesType preferencesType : request.preferences()) {
+                PreferencesTaste preferencesTaste = preferencesTasteRepository.findByPreferencesType(preferencesType)
+                    .orElseGet(() -> preferencesTasteRepository.save(new PreferencesTaste(null, preferencesType)));
+
+                MemberPreferencesTaste memberPreferencesTaste = new MemberPreferencesTaste(null, member,
+                    preferencesTaste);
+                member.addPreferences(memberPreferencesTaste);
+            }
+        }
         memberRepository.save(member);
 
         return MemberResponse.from(member);
