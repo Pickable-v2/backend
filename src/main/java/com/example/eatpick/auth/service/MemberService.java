@@ -41,6 +41,13 @@ public class MemberService {
         return MemberResponse.from(member);
     }
 
+    public void withdraw() {
+        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
+            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
+
+        memberRepository.delete(member);
+    }
+
     public SignInResponse signIn(SignInRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             request.loginId(), request.loginPw());
@@ -71,5 +78,9 @@ public class MemberService {
 
     public boolean checkNickname(String nickname) {
         return memberRepository.existsByNickname(nickname);
+    }
+
+    public boolean checkPassword(String loginPw, String verifiedLoginPw) {
+        return loginPw.equals(verifiedLoginPw);
     }
 }
