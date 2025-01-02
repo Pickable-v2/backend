@@ -47,4 +47,8 @@ public class Friendship {
         Long user2 = Math.max(fromMemberId, toMemberId);
         return new Friendship(null, user1, user2, friendshipStatus);
     }
+
+    public void acceptFriendshipRequest() {
+        friendshipStatus = FriendshipStatus.ACCEPT;
+    }
 }
