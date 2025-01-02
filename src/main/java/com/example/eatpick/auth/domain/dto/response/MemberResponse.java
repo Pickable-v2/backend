@@ -1,13 +1,10 @@
 package com.example.eatpick.auth.domain.dto.response;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.example.eatpick.auth.domain.entity.Member;
 import com.example.eatpick.auth.domain.type.GenderType;
 import com.example.eatpick.auth.domain.type.RoleType;
-import com.example.eatpick.memberPreferencesTaste.domain.entity.MemberPreferencesTaste;
-import com.example.eatpick.preferencesTaste.domain.entity.PreferencesTaste;
 import com.example.eatpick.preferencesTaste.domain.type.PreferencesType;
 
 public record MemberResponse(
