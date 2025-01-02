@@ -18,12 +18,10 @@ import com.example.eatpick.auth.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@Slf4j
 @Tag(name = "Member", description = "Member API")
 public class MemberController {
     private final MemberService memberService;
