@@ -3,15 +3,15 @@ package com.example.eatpick.friendship.domain.dto;
 import com.example.eatpick.friendship.domain.entity.Friendship;
 import com.example.eatpick.friendship.domain.status.FriendshipStatus;
 
-public record FriendResponse(
+public record FriendshipResponse(
     Long id,
-    String fromMemberId,
-    String toMemberId,
+    Long fromMemberId,
+    Long toMemberId,
     FriendshipStatus friendshipStatus
 ) {
 
-    public static FriendResponse from(Friendship friendship) {
-        return new FriendResponse(friendship.getId(), friendship.getFromMemberId(), friendship.getToMemberId(),
+    public static FriendshipResponse from(Friendship friendship) {
+        return new FriendshipResponse(friendship.getId(), friendship.getFromMemberId(), friendship.getToMemberId(),
             friendship.getFriendshipStatus());
     }
 }

@@ -22,7 +22,6 @@ import com.example.eatpick.auth.repository.MemberRepository;
 import com.example.eatpick.common.security.domain.dto.JwtToken;
 import com.example.eatpick.common.security.service.JwtTokenProvider;
 import com.example.eatpick.common.security.util.SecurityUtil;
-import com.example.eatpick.friendship.domain.dto.FriendResponse;
 import com.example.eatpick.friendship.domain.dto.SearchResponse;
 import com.example.eatpick.memberPreferencesTaste.domain.entity.MemberPreferencesTaste;
 import com.example.eatpick.preferencesTaste.domain.entity.PreferencesTaste;
@@ -63,8 +62,7 @@ public class MemberService {
     }
 
     public void withdraw() {
-        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
-            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
+        Member member = getLoginMember();
 
         memberRepository.delete(member);
     }
@@ -80,8 +78,7 @@ public class MemberService {
     }
 
     public MyPageUpdateResponse myPageUpdate(MyPageUpdateRequest request) {
-        Member member = findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
-            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
+        Member member = getLoginMember();
 
         member.update(request);
         memberRepository.save(member);
@@ -107,5 +104,10 @@ public class MemberService {
 
     public Page<SearchResponse> searchByLoginId(String loginId, Pageable pageable) {
         return memberRepository.findByLoginIdContaining(loginId, pageable);
+    }
+
+    public Member getLoginMember() {
+        return findByLoginId(SecurityUtil.getLoginId()).orElseThrow(
+            () -> new UsernameNotFoundException("존재하지 않는 사용자입니다."));
     }
 }
